@@ -1,0 +1,9 @@
+{
+  "name": "LUCA",
+  "description": "Advanced Autonomous Agent System. Codename: Red Queen.",
+  "requestFramePermissions": [
+    "microphone",
+    "geolocation",
+    "camera"
+  ]
+}

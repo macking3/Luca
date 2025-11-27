@@ -1,0 +1,145 @@
+
+{
+  "name": "luca-autonomous-agent",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "electron.js",
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "server": "node server.js",
+    "restore": "node restore.js",
+    "electron:dev": "concurrently \"vite\" \"wait-on tcp:3000 && electron .\"",
+    "electron:build": "tsc && vite build && electron-builder",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "mobile:init": "npm run build && npx cap add android && npx cap add ios",
+    "mobile:sync": "npm run build && npx cap sync",
+    "mobile:android": "npm run mobile:sync && npx cap open android",
+    "mobile:ios": "npm run mobile:sync && npx cap open ios",
+    "mobile:build:android": "npm run mobile:sync && cd android && ./gradlew assembleRelease",
+    "mobile:build:ios": "npm run mobile:sync && cd ios && xcodebuild -workspace App.xcworkspace -scheme App -configuration Release archive"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@google/genai": "*",
+    "lucide-react": "^0.344.0",
+    "recharts": "^2.12.2",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "zod": "^3.22.4",
+    "@monaco-editor/react": "^4.6.0",
+    "whatsapp-web.js": "^1.23.0",
+    "qrcode": "^1.5.3",
+    "socks-proxy-agent": "^8.0.2",
+    "https-proxy-agent": "^7.0.2",
+    "cheerio": "^1.0.0-rc.12"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.64",
+    "@types/react-dom": "^18.2.21",
+    "@vitejs/plugin-react": "^4.2.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.1.6",
+    "autoprefixer": "^10.4.18",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "electron": "^29.1.0",
+    "electron-builder": "^24.13.0",
+    "concurrently": "^8.2.2",
+    "wait-on": "^7.2.0",
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/ios": "^6.0.0"
+  },
+  "build": {
+    "appId": "com.luca.agent",
+    "productName": "LUCA OS",
+    "files": [
+      "dist/**/*",
+      "electron.js",
+      "server.js",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64", "ia32"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "build/icon.ico",
+      "publisherName": "LUCA Autonomous Agent"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "category": "public.app-category.productivity",
+      "icon": "build/icon.icns",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        },
+        {
+          "target": "deb",
+          "arch": ["x64"]
+        },
+        {
+          "target": "rpm",
+          "arch": ["x64"]
+        }
+      ],
+      "category": "Utility",
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ],
+      "window": {
+        "width": 540,
+        "height": 400
+      }
+    }
+  }
+}
